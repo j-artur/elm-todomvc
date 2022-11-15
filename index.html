@@ -1,23 +1,24 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-
-<head>
-  <meta charset="UTF-8">
-  <title>Elm • TodoMVC</title>
-  <script type="text/javascript" src="elm.js"></script>
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-</body>
-
-<script type="text/javascript">
-var storedState = localStorage.getItem('elm-todo-save');
-var startingState = storedState ? JSON.parse(storedState) : null;
-var app = Elm.Main.init({ flags: startingState });
-app.ports.setStorage.subscribe(function(state) {
-    localStorage.setItem('elm-todo-save', JSON.stringify(state));
-});
-</script>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elm • TodoMVC</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <script src="/build/main.js"></script>
+    <script>
+      const storedState = localStorage.getItem("elm-todo-save");
+      const flags = storedState && JSON.parse(storedState);
+      console.log({ flags });
+      const app = Elm.Main.init({
+        flags,
+      });
+      app.ports.setStorage.subscribe(state => {
+        localStorage.setItem("elm-todo-save", JSON.stringify(state));
+      });
+    </script>
+  </body>
 </html>

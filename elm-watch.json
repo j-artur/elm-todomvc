@@ -1,0 +1,8 @@
+{
+  "targets": {
+    "TodoMVC": {
+      "inputs": ["src/Main.elm"],
+      "output": "build/main.js"
+    }
+  }
+}

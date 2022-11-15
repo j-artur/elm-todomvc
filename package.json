@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "dev": "pnpm dlx elm-watch hot & pnpm dlx serve"
+  }
+}
