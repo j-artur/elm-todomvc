@@ -51,6 +51,16 @@ emptyModel =
     }
 
 
+init : Maybe Value -> ( Model, Cmd Msg )
+init maybeModel =
+    case maybeModel of
+        Just model ->
+            ( Decode.decodeValue modelDecoder model |> Result.withDefault emptyModel, Cmd.none )
+
+        Nothing ->
+            ( emptyModel, Cmd.none )
+
+
 
 -- UPDATE
 
@@ -175,18 +185,7 @@ view model =
     div [ class "todomvc-wrapper" ]
         [ section
             [ class "todoapp" ]
-            [ lazy (form [ class "header", onSubmit Add ])
-                [ h1 [] [ text "todos" ]
-                , input
-                    [ class "new-todo"
-                    , placeholder "What needs to be done?"
-                    , autofocus True
-                    , value model.field
-                    , name "newTodo"
-                    , onInput UpdateField
-                    ]
-                    []
-                ]
+            [ viewForm model.field
             , viewTodos model.now model.visibility model.todos
             , viewControls model.visibility model.todos
             ]
@@ -201,6 +200,22 @@ view model =
 
 
 -- VIEW ALL TODOS
+
+
+viewForm : String -> Html Msg
+viewForm field =
+    form [ class "header", onSubmit Add ]
+        [ h1 [] [ text "todos" ]
+        , input
+            [ class "new-todo"
+            , placeholder "What needs to be done?"
+            , autofocus True
+            , value field
+            , name "newTodo"
+            , onInput UpdateField
+            ]
+            []
+        ]
 
 
 viewTodos : Posix -> Visibility -> List Todo -> Html Msg
@@ -351,16 +366,6 @@ viewControlsClear todosCompleted =
 
 
 -- MAIN
-
-
-init : Maybe Value -> ( Model, Cmd Msg )
-init maybeModel =
-    case maybeModel of
-        Just model ->
-            ( Decode.decodeValue modelDecoder model |> Result.withDefault emptyModel, Cmd.none )
-
-        Nothing ->
-            ( emptyModel, Cmd.none )
 
 
 main : Program (Maybe Value) Model Msg
